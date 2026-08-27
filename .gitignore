@@ -1,0 +1,16 @@
+.agent-company-ai/
+.claude/
+.env
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+*.db
+*.db-shm
+*.db-wal
+.vault/
+dashboard_users.json
+.pytest_cache/
