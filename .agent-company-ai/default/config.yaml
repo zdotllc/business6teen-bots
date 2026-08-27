@@ -1,0 +1,95 @@
+name: My AI Company
+llm:
+  default_provider: openai
+  openai:
+    api_key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    model: deepseek-v4-flash
+    base_url: https://api.deepseek.com/v1
+    max_tokens: 4096
+agents:
+- name: Alex
+  role: ceo
+- name: Jordan
+  role: cto
+- name: Sam
+  role: developer
+- name: Morgan
+  role: marketer
+- name: Casey
+  role: project_manager
+dashboard:
+  port: 8420
+  host: 127.0.0.1
+autonomous:
+  max_cycles: 5
+  max_waves_per_cycle: 10
+  max_agent_iterations: 25
+  max_total_tasks: 50
+  max_time_seconds: 3600
+  max_cost_usd: 10.0
+  daily_budget_usd: 20.0
+wallet:
+  enabled: false
+  default_chain: ethereum
+profit_engine:
+  enabled: false
+  mission: ''
+  revenue_streams: ''
+  target_customers: ''
+  pricing_model: ''
+  competitive_edge: ''
+  key_metrics: ''
+  cost_priorities: ''
+  additional_context: ''
+integrations:
+  email:
+    enabled: false
+    provider: resend
+    api_key: ''
+    from_address: ''
+    from_name: ''
+    reply_to: ''
+  stripe:
+    enabled: false
+    api_key: ''
+  landing_page:
+    enabled: false
+    serve_port: 8421
+    output_dir: landing_pages
+  twitter:
+    enabled: false
+    api_key: ''
+    api_secret: ''
+    access_token: ''
+    access_token_secret: ''
+  vercel:
+    enabled: false
+    token: ''
+    project_name: ''
+  gumroad:
+    enabled: false
+    access_token: ''
+  invoice:
+    enabled: false
+    company_name: ''
+    company_address: ''
+    payment_instructions: ''
+    currency: USD
+  calcom:
+    enabled: false
+    api_key: ''
+    default_duration: 30
+  rate_limits:
+    emails_per_hour: 20
+    emails_per_day: 100
+    payment_links_per_day: 10
+    max_payment_amount_usd: 500.0
+    tweets_per_day: 17
+    deploys_per_day: 50
+    gumroad_daily: 50
+    invoices_daily: 50
+    bookings_daily: 20
+    prospects_per_hour: 30
+    prospects_per_day: 200
+    browse_per_hour: 60
+    browse_per_day: 500
