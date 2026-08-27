@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biz6teen · Property Leads</title>
+  <!-- separate CSS (inline for single-file demo, but kept as <style> block) -->
+  <style>
+    /* ===== CSS reset & base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #f4f7fc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .app-container {
+      max-width: 1440px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15);
+      padding: 2rem 2rem 2.5rem;
+      transition: all 0.2s;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid #eef2f6;
+      padding-bottom: 1.5rem;
+    }
+
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #0b2b4a, #1b4a7a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo span {
+      font-weight: 400;
+      color: #3d5a73;
+      background: none;
+      -webkit-text-fill-color: #3d5a73;
+      font-size: 1rem;
+      margin-left: 6px;
+    }
+
+    .bots-link {
+      background: #1a2e3f;
+      padding: 0.6rem 1.5rem;
+      border-radius: 60px;
+      color: white;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 8px rgba(0,20,40,0.1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bots-link:hover {
+      background: #0f1e2b;
+      transform: scale(1.02);
+      box-shadow: 0 8px 14px rgba(0,0,0,0.15);
+    }
+
+    /* lead form */
+    .lead-form {
+      background: #f9fafc;
+      padding: 1.8rem 2rem;
+      border-radius: 28px;
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 1.2rem 1.8rem;
+      border: 1px solid #e6edf4;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1 0 140px;
+    }
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #3b4d5e;
+    }
+    .form-group input, 
+    .form-group select,
+    .form-group textarea {
+      background: white;
+      border: 1px solid #d7e0e8;
+      border-radius: 14px;
+      padding: 0.7rem 1rem;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      width: 100%;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #1b4a7a;
+      box-shadow: 0 0 0 3px rgba(27,74,122,0.15);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 44px;
+    }
+    .form-group.file-input {
+      flex: 1.5 0 180px;
+    }
+    .file-input input[type="file"] {
+      padding: 0.5rem 0.2rem;
+      background: transparent;
+      border: none;
+    }
+
+    .submit-btn {
+      background: #1b4a7a;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.7rem 2.2rem;
+      border-radius: 40px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 6px 12px rgba(27,74,122,0.2);
+      align-self: center;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .submit-btn:hover {
+      background: #0f3a5f;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(27,74,122,0.25);
+    }
+
+    /* leads table */
+    .leads-section {
+      margin-top: 1rem;
+    }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title h2 {
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #0b2b4a;
+    }
+    .lead-count {
+      background: #e6edf4;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1a3a57;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 24px;
+      border: 1px solid #e2eaf2;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 780px;
+    }
+
+    th {
+      background: #f2f6fb;
+      color: #1f3b54;
+      font-weight: 600;
+      padding: 1rem 0.8rem;
+      text-align: left;
+      border-bottom: 2px solid #dce5ef;
+    }
+
+    td {
+      padding: 1rem 0.8rem;
+      border-bottom: 1px solid #eaeff5;
+      vertical-align: middle;
+      background: white;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .lead-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #eef2f6;
+      border: 1px solid #dde5ed;
+    }
+
+    .lead-actions {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .btn-icon {
+      background: transparent;
+      border: 1px solid #d0dbe8;
+      border-radius: 30px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #1d3b5a;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-icon:hover {
+      background: #eef4fa;
+      border-color: #1b4a7a;
+    }
+    .btn-icon.delete {
+      color: #b13e3e;
+      border-color: #f0d2d2;
+    }
+    .btn-icon.delete:hover {
+      background: #fce8e8;
+      border-color: #b13e3e;
+    }
+    .btn-icon.note {
+      color: #1f6d4a;
+      border-color: #c2ddd0;
+    }
+    .btn-icon.note:hover {
+      background: #e4f3eb;
+    }
+
+    .note-cell {
+      max-width: 140px;
+      word-break: break-word;
+      color: #1e3347;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 2.8rem 1rem;
+      color: #6b7f93;
+      font-weight: 400;
+    }
+
+    /* footer */
+    .footer-note {
+      margin-top: 2.2rem;
+      font-size: 0.8rem;
+      color: #6b7f93;
+      text-align: center;
+      border-top: 1px solid #e3eaf2;
+      padding-top: 1.8rem;
+    }
+    .footer-note a {
+      color: #1b4a7a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .app-container { padding: 1.5rem; }
+      .lead-form { flex-direction: column; align-items: stretch; }
+      .submit-btn { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- header -->
+  <header class="header">
+    <div class="logo">
+      <h1>Biz6teen <span>· property leads</span></h1>
+    </div>
+    <a href="https://business6teen-bots.up.railway.app/" target="_blank" class="bots-link">
+      🤖 Bots
+    </a>
+  </header>
+
+  <!-- lead capture form -->
+  <form id="leadForm" class="lead-form">
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input type="text" id="address" placeholder="123 Main St, City" required>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select id="type">
+        <option value="FSBO">FSBO</option>
+        <option value="Vacant">Vacant</option>
+        <option value="Rental">Rental</option>
+        <option value="For Sale">For Sale</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Contact name">
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" placeholder="(555) 123-4567">
+    </div>
+    <div class="form-group file-input">
+      <label for="photoUpload">Upload photo</label>
+      <input type="file" id="photoUpload" accept="image/*">
+    </div>
+    <div class="form-group" style="flex: 1.2;">
+      <label for="notes">Notes</label>
+      <input type="text" id="notes" placeholder="Additional info...">
+    </div>
+    <button type="submit" class="submit-btn">+ Add lead</button>
+  </form>
+
+  <!-- leads list / dynamic table -->
+  <section class="leads-section">
+    <div class="section-title">
+      <h2>📋 Lead manager</h2>
+      <span class="lead-count" id="leadCounter">0 leads</span>
+    </div>
+    <div class="table-wrapper">
+      <table id="leadTable">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Address</th>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadTableBody">
+          <!-- dynamic rows inserted by JS -->
+          <tr><td colspan="7" class="empty-message">No leads yet. Add your first property!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="footer-note">
+    <span>📌 Data is saved in your browser (localStorage).  </span>
+    <a href="#" id="resetDemoLink" style="margin-left: 12px;">↻ reset demo</a>
+  </div>
+</div>
+
+<!-- separate JS (inline but as <script> block) -->
+<script>
+  (function() {
+    "use strict";
+
+    // ----- DOM refs -----
+    const form = document.getElementById('leadForm');
+    const addressInput = document.getElementById('address');
+    const typeSelect = document.getElementById('type');
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const photoInput = document.getElementById('photoUpload');
+    const notesInput = document.getElementById('notes');
+    const tbody = document.getElementById('leadTableBody');
+    const leadCounter = document.getElementById('leadCounter');
+
+    // ----- state -----
+    let leads = [];          // array of lead objects
+    const STORAGE_KEY = 'biz6teen_leads';
+
+    // ----- helper: load from localStorage -----
+    function loadLeads() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          leads = JSON.parse(stored);
+          // ensure each lead has an id (for older entries)
+          leads = leads.filter(l => l != null).map(l => {
+            if (!l.id) l.id = Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+            return l;
+          });
+        } catch (e) {
+          leads = [];
+        }
+      } else {
+        // seed with a demo lead so it's not empty
+        leads = [
+          {
+            id: 'demo1',
+            address: '742 Evergreen Terrace, Springfield',
+            type: 'FSBO',
+            name: 'Ned Flanders',
+            phone: '(555) 123-4567',
+            notes: 'Needs renovation, motivated seller',
+            photoData: null, // no photo
+          },
+          {
+            id: 'demo2',
+            address: '31 Spooner St, Quahog',
+            type: 'Abandoned',
+            name: 'Peter Griffin',
+            phone: '(401) 555-0199',
+            notes: 'Corner lot, overgrown',
+            photoData: null,
+          }
+        ];
+        saveLeads();
+      }
+    }
+
+    // ----- save to localStorage -----
+    function saveLeads() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+      renderTable();
+    }
+
+    // ----- render table from leads array -----
+    function renderTable() {
+      if (!tbody) return;
+
+      if (leads.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-message">✨ No leads yet. Add your first property!</td></tr>`;
+        leadCounter.textContent = '0 leads';
+        return;
+      }
+
+      let html = '';
+      leads.forEach((lead, index) => {
+        // photo: if photoData exists, show as base64 img; else placeholder
+        let imgHtml = '';
+        if (lead.photoData && lead.photoData.startsWith('data:image')) {
+          imgHtml = `<img src="${lead.photoData}" alt="property" class="lead-img">`;
+        } else {
+          imgHtml = `<div class="lead-img" style="display:flex;align-items:center;justify-content:center;background:#eef2f6;color:#7a8f9f;font-size:0.7rem;">📷</div>`;
+        }
+
+        // escape notes to avoid injection
+        const safeNotes = (lead.notes || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        html += `<tr>
+          <td>${imgHtml}</td>
+          <td><strong>${escapeHtml(lead.address || '')}</strong></td>
+          <td>${escapeHtml(lead.type || 'Other')}</td>
+          <td>${escapeHtml(lead.name || '')}</td>
+          <td>${escapeHtml(lead.phone || '')}</td>
+          <td class="note-cell">${safeNotes}</td>
+          <td>
+            <div class="lead-actions">
+              <button class="btn-icon note" data-action="addNote" data-id="${lead.id}">✏️ note</button>
+              <button class="btn-icon delete" data-action="delete" data-id="${lead.id}">🗑️</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+
+      tbody.innerHTML = html;
+      leadCounter.textContent = `${leads.length} lead${leads.length !== 1 ? 's' : ''}`;
+
+      // attach event listeners to action buttons (delegation not needed, but we attach directly)
+      document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const id = this.getAttribute('data-id');
+          deleteLead(id);
+        });
+      });
+
+      document.querySelectorAll('[data-action="addNote"]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const id = this.getAttribute('data-id');
+          const lead = leads.find(l => l.id === id);
+          if (!lead) return;
+          const newNote = prompt('✏️ Add or update note for this lead:', lead.notes || '');
+          if (newNote !== null) {
+            lead.notes = newNote.trim() || '';
+            saveLeads();
+          }
+        });
+      });
+    }
+
+    // simple escape
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ----- delete lead by id -----
+    function deleteLead(id) {
+      if (!id) return;
+      const confirmDelete = confirm('Delete this lead?');
+      if (!confirmDelete) return;
+      leads = leads.filter(l => l.id !== id);
+      saveLeads();
+    }
+
+    // ----- add new lead from form -----
+    function addLeadFromForm(event) {
+      event.preventDefault();
+
+      const address = addressInput.value.trim();
+      if (!address) {
+        alert('Please enter an address.');
+        addressInput.focus();
+        return;
+      }
+
+      // read photo as dataURL if any
+      let photoData = null;
+      const file = photoInput.files && photoInput.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          photoData = e.target.result;
+          // after photo loads, create lead
+          createLeadObject(address, photoData);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // no photo (or invalid)
+        createLeadObject(address, null);
+      }
+
+      function createLeadObject(address, photoData) {
+        const newLead = {
+          id: Date.now() + '_' + Math.random().toString(36).slice(2, 9),
+          address: address,
+          type: typeSelect.value,
+          name: nameInput.value.trim() || '',
+          phone: phoneInput.value.trim() || '',
+          notes: notesInput.value.trim() || '',
+          photoData: photoData, // base64 or null
+        };
+        leads.push(newLead);
+        saveLeads();
+        form.reset();
+        // clear file input manually (reset doesn't clear file always)
+        photoInput.value = '';
+        // refocus address
+        addressInput.focus();
+      }
+    }
+
+    // ----- reset demo (clear all leads) -----
+    function resetDemo() {
+      if (leads.length === 0) return;
+      const confirmReset = confirm('⚠️ Delete all leads? This cannot be undone.');
+      if (!confirmReset) return;
+      leads = [];
+      saveLeads();
+    }
+
+    // ----- init -----
+    function init() {
+      loadLeads();
+      renderTable();
+
+      // form submit
+      form.addEventListener('submit', addLeadFromForm);
+
+      // reset demo link
+      const resetLink = document.getElementById('resetDemoLink');
+      if (resetLink) {
+        resetLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          resetDemo();
+        });
+      }
+    }
+
+    // wait for DOM
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
+</script>
+</body>
+</html>
